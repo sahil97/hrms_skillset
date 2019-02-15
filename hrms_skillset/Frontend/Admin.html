@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="index2.css" rel="stylesheet" id="bootstrap-css">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-sm bg-dark text-light ">Cyber Group
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="Create.html">Create</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Skills</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Projects</a>
+                </li>
+              </ul>
+            </nav>
+            
+            <div class="container">
+                <input type="button" value="List of Employees" id="list">
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Employee Id</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <thread>
+                        <p id="id_table"></p>
+                    </thread>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
+<script>
+    document.getElementById('list').addEventListener('click',Table, true);
+    
+    function Table(){
+            var employee = new Array();
+            employee.push([4, "Billie Jean"]);
+            employee.push([5, "Harish Kumar"]);
+            var tablecontents = new Array();
+            for (var i = 0; i < employee.length; i++) {
+                tablecontents += "<tr>";
+                for (var j = 0; j < employee[i].length; j++) {
+                    tablecontents += "<td>" + employee[i][j] + "</td>";
+                }
+                tablecontents += "</tr>";
+            }
+            document.getElementById("id_table").innerHTML = tablecontents;
+        }
+
+</script>
