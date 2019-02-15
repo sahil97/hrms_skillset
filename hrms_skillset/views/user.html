@@ -7,48 +7,34 @@
   <link rel="stylesheet" href="..\public\css\bootstrap.min.css" class="css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="..\public\css\user.css" class="css">
-
   <title>Document</title>
 </head>
 <body>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <a class="navbar-brand" href="#"><img src="cyber.png" alt="Company Logo" class="img-thumbnail img_nav"> Cybergroup</a>
-
-    <div class="navbar-nav ml-auto">
-      <a class="nav-item nav-link" href="#">LOGOUT</a>
-    </div>
-</nav>
-
-<div class="main">
-  <div class="container">
-
-      <div class="row header">
-          <div class="col"><img class="img-fluid" src="..\public\img\1.jpg"></div>
-          <div class="col texts">
-            <h1 >Sahil Sharma</h1>
-            <h5> email : u@abc.com </h5>
-          </div>
-      </div>
-
-    <div class="sel_skills">
-      <label id="label_skills" for="states[]"> Select Skills</label>
-      <select class="js-example-basic-multiple skills_input" name="states[]" multiple="multiple" id = "Skills_option">
-        <option value="AL">Alabama</option>
-        <option value="WY">Wyoming</option>
-      </select>
-      <button class = "btn btn-primary btn-sm "> ADD </button>
-
-    </div>
-
+    <nav class="navbar navbar-expand-sm bg-dark text-light justify-content-center">
+        <img src="cyber.png" alt="Company logo" class="img-thumbnail img_nav"> Cyber Group</nav>
+    <div class="main">
+        <div class="container">
+            <div class="row header">
+                <div class="col"><img class="img-fluid" src="..\public\img\1.jpg"></div>
+                <div class="col texts">
+                    <h1 >Sahil Sharma</h1>
+                    <h5> email : u@abc.com </h5>
+                </div>
+            </div>
+            <div class="sel_skills">
+                <label id="label_skills" for="states[]"> Select Skills</label>
+                <select class="js-example-basic-multiple skills_input" name="states[]" multiple="multiple" id = "Skills_option">
+                    <option value="AL">Alabama</option>
+                    <option value="WY">Wyoming</option>
+                </select>
+                <button class = "btn btn-primary btn-sm "> ADD </button>
+            </div>
     <h3>My Skills</h3>
-    <div id="display_skills"></div>
-
-  </div>
-
-</body>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-<script src="..\public\js\user.js" charset="utf-8"></script>
-
-</html>
+            <div id="display_skills"></div>
+        </div>
+        </body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="..\public\js\user.js" charset="utf-8"></script>
+    </html>
