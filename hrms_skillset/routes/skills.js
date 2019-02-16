@@ -61,6 +61,13 @@ router.post('/makeskill',async function(req,res){
 // });
 
 router.put('/skill/:id',function(req,res){
+  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  console.log("here",token);
+  var username = token.username;
+
+  User.findOne({username:username},(err,user)=>{
+    if(user.role == "sa"){
+
   Skills.findOneAndUpdate(
     {_id:req.params.id},
 
@@ -83,6 +90,11 @@ router.put('/skill/:id',function(req,res){
         res.send(updatedSkill);
       }
     });
+  }
+  else {
+    res.status(403).send("Not a admin");
+  }
+});
 });
 
 
@@ -96,6 +108,11 @@ router.put('/skill/:id',function(req,res){
 
 
 router.delete('/skills/:id',function(req,res){
+  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  console.log("here",token);
+  var username = token.username;
+  ser.findOne({username:username},(err,user)=>{
+    if(user.role == "sa"){
     Skills.findOneAndRemove(
       {_id:req.params.id},
       function(err,deletedUser){
@@ -105,6 +122,11 @@ router.delete('/skills/:id',function(req,res){
         else{
           console.log(deletedUser);
             }
+          });
+      }
+      else {
+          res.status(403).send("Not a admin");
+      }
     });
 });
 
