@@ -45,7 +45,8 @@ router.post('/login',(req,res)=>{
       }
       else{
         var token = jwt.sign({ username:user.username},'bootcamp');
-        return res.header('x-auth-token',token).send("Successful Login");
+        console.log(user);
+        return res.header('x-auth-token',token).send(user.role);
       }
   });
 });
@@ -61,7 +62,7 @@ router.post('/register',(req,res)=>{
     if(user) return res.status(400).send("User already exists");
 
     const salt = await bcrypt.genSalt(10);
-    const pass = await bcrypt.hash(req.body.password,salt);
+    const pass = await bcrypt.hash("admin",salt);
     user = new User ({name:"Test",role:"u",username:req.body.username,password:pass,skills:[],pic:""});
     user.save((err,user)=>{
       if (err) return console.error(err);
