@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    var username, username_email, skills;
     $('.js-example-basic-multiple').select2();
     all_skills = ["html","CS"];
     console.log(localStorage.getItem('token'));
@@ -21,13 +22,21 @@ $(document).ready(function() {
       // "processData": false,
       "data":"",
       success: function(res){
-            var skills = res;
+        console.log(res);
+            skills = res.skills;
+            username = res.name;
+            username_email = res.username;
+            console.log(username);
+            console.log(username_email);
             updateSkills(skills);
         },
     });
 
 
     function updateSkills(skills){
+
+      document.getElementById("Username").innerHTML = username;
+      document.getElementById("Username_email").innerHTML = username_email;
       var display_skills = document.getElementById("display_skills");
       for (var i = 0; i < skills.length; i++) {
           var skilldiv = document.createElement("div");      // TABLE HEADER.
@@ -67,5 +76,10 @@ $(document).ready(function() {
               location.reload();
           },
       });
-    })
+    });
+    $("#logoutbtn").click(function(){
+
+        console.log("token here");
+        localStorage.removeItem("token");
+    });
 });
