@@ -1,6 +1,10 @@
 $(document).ready(function(){
 
     $("#pop").hide();
+    $("#Updatebtn").click(function(){
+      var Updatebtn = document.getElementById("Updatebtn");
+      Updatebtn.setAttribute("data-dismiss","modal");
+    })
     $("#list_button").click(function(){
 
           $("#pop").show();
@@ -12,7 +16,7 @@ $(document).ready(function(){
       //     success: function(res){
 
               var body = document.getElementById('pop');
-              jsonObj = [{"Name": "taran", "Id": "33"}];
+              jsonObj = [{"Name": "Taran", "Id": "33"}];
               showtable(jsonObj);
               // showtable(res);
               function showtable(jsonObj) {
@@ -53,7 +57,10 @@ $(document).ready(function(){
                       var tabCell = tr.insertCell(-1);
 
                       var myImage1 = new Image(20, );
-                      myImage1.src = 'edit.png';                      // Edit and Delete images
+                      myImage1.src = 'edit.png';
+                      // data-toggle="modal" data-target="#exampleModal"
+                      myImage1.setAttribute("data-toggle","modal");
+                      myImage1.setAttribute("data-target","#exampleModal");              // Edit and Delete images
                       var myImage2 = new Image(20, );
                       myImage2.src = 'delete.png';
                       myImage1.setAttribute("id", jsonObj[i].id);
@@ -72,4 +79,64 @@ $(document).ready(function(){
               }
 
         });
-      });
+});
+
+function myfuncdel(imageID){       // function to delete data
+    console.log("In Delete");
+    delid = imageID.slice(3,);
+
+//     $.ajax({
+//
+//         type: 'DELETE',
+//         url: "http://localhost:50434/api/employees/" + delid,
+//         dataType: "JSON",
+//         success: function(res){
+//             document.location.reload();
+//         }
+// });
+}
+
+
+function myfuncedit(imageID){               // function to edit data
+
+  console.log("In Edit");
+
+    // $.ajax({
+    //     async: false,
+    //     type: 'GET',
+    //     url: "http://localhost:50434/api/Skills/" + imageID,
+    //     dataType: "JSON",
+    //     success: function(res){
+              res = {"id": 1, "Name": "Taran"};
+              var input = document.createElement("input");
+              input.setAttribute("type","text");
+              input.setAttribute("name","name");
+              input.setAttribute("placeholder", res.Name);
+              input.setAttribute("class", "text-center");
+              var modal_body = document.getElementById("modal_body");
+              modal_body.appendChild(input);
+
+
+            // document.getElementById("code2").innerHTML =  res.id;
+            // gid = res.id;
+            // document.getElementById("name2").setAttribute("value", res.name);
+            // document.getElementById("mail2").setAttribute("value", res.mail);
+            // document.getElementById("designation").value = res.designation["id"];
+//         }
+// });
+}
+
+function updatemethod(){
+    console.log("In update");
+
+    // $.ajax({
+    //     type: 'PUT',
+    //     url: "http://localhost:50434/api/employees/"+ gid,
+    //     dataType: "JSON",
+    //     data :myOBJ2,
+    //     success: function(res){
+    //         document.location.reload();
+    //    }
+    //
+    // });
+}

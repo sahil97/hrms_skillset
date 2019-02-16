@@ -49,7 +49,9 @@
                 var tabCell = tr.insertCell(-1);
 
                 var myImage1 = new Image(20, );
-                myImage1.src = 'edit.png';                      // Edit and Delete images
+                myImage1.src = 'edit.png';
+                myImage1.setAttribute("data-toggle","modal");
+                myImage1.setAttribute("data-target","#exampleModal");                    // Edit and Delete images
                 var myImage2 = new Image(20, );
                 myImage2.src = 'delete.png';
                 myImage1.setAttribute("id", jsonObj[i].id);
