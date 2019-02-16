@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 var mongoose = require('mongoose');
@@ -32,30 +34,21 @@ router.get('/',(req,res)=>{
 
 /// ---- Login request  -----
 router.post('/login',(req,res)=>{
-
-  User.findOne({username:req.body.username},(err,user)=>{
-    console.log(user);
+  // console.log(req.body);
+  User.findOne({username:req.body.username},async (err,user)=>{
+    // console.log(user);
     if(!user) {return res.status(404).send("Incorrect username");}
-
-    else if(user.password == req.body.password){
-        return res.status(200).send("successful login");
-      }
-      else{
+    var validpass = await bcrypt.compare(req.body.password,user.password);
+    // console.log(validpass);
+    if(!validpass){
         return res.status(400).send("incorrect password");
       }
+      else{
+        var token = jwt.sign({ username:user.username},'bootcamp');
+        console.log(user);
+        return res.header('x-auth-token',token).send(user.role);
+      }
   });
-
-  // const user = users.find(u => u.username === req.body.username);
-  // if(!user) return res.status(404).send("incorrect Username");
-
-  // verifying password
-  // console.log(req.body,user);
-  // if(user.password == req.body.password){
-  //   return res.status(200).send("successful login");
-  // }
-  // else{
-  //   return res.status(400).send("incorrect password");
-  // }
 });
 
 
@@ -64,11 +57,13 @@ router.post('/login',(req,res)=>{
 
 
 router.post('/register',(req,res)=>{
-  var user = User.findOne({"username":req.body.username},(err,user)=>{
+  var user = User.findOne({"username":req.body.username},async (err,user)=>{
     console.log(user);
     if(user) return res.status(400).send("User already exists");
 
-    user = new User ({name:"Test",role:"u",username:req.body.username,password:req.body.password,skills:[],pic:""});
+    const salt = await bcrypt.genSalt(10);
+    const pass = await bcrypt.hash("admin",salt);
+    user = new User ({name:"Test",role:"u",username:req.body.username,password:pass,skills:[],pic:""});
     user.save((err,user)=>{
       if (err) return console.error(err);
       console.log("saved");
@@ -111,9 +106,11 @@ router.delete('/register',(req,res)=>{
 
 /// --- get user skills ------
 router.get('/skills',(req,res)=>{
-
-  User.findOne({username:req.body.username},(err,user)=>{
-    res.json(user.skills);
+  var token = jwt.verify(req.get('x-auth-token'),'bootcamp');
+  console.log(token);
+  User.findOne({username:token.username},(err,user)=>{
+    var res_data = {skills:user.skills,name:user.name,username:user.username};
+    res.json(res_data);
   });
 });
 
@@ -121,16 +118,17 @@ router.get('/skills',(req,res)=>{
 
 /// --- Edit user Skills ---
 router.put('/skills',(req,res)=>{
-
-  User.findOne({username:req.body.username},(err,user)=>{
+  var token = jwt.verify(req.get('x-auth-token'),'bootcamp');
+  console.log(token);
+  User.findOne({username:token.username},(err,user)=>{
     user.skills = user.skills.concat(req.body.skills);
     user.save((err,user)=>{
-      res.json(user);
+      res.json(user.skills);
     });
   });
 });
 
 
 
-
-module.exports = router;
+exports.router = router;
+exports.user = User;
