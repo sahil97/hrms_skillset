@@ -128,5 +128,5 @@ router.put('/skills',(req,res)=>{
 
 
 
-
-module.exports = router;
+exports.router = router;
+exports.user = User;

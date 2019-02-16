@@ -1,7 +1,8 @@
 const fs = require('fs');
 const express = require('express');
 const morgan = require('morgan');
-const users = require('./routes/users.js')
+const user = require('./routes/users.js')
+const users = user.router;
 const skills = require('./routes/skills.js')
 var app = express();
 
