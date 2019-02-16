@@ -23,7 +23,11 @@ $(document).ready(()=>{
             var token = request.getResponseHeader('x-auth-token');
             localStorage.setItem("token",token);
             alert('login');
-            window.location.href='user.html';
+            console.log(res);
+
+            if(res=="sa"){window.location.href='admin.html';}
+            else if(res=="u"){window.location.href='user.html';}
+
         },
       statusCode: {
       400: function() {
