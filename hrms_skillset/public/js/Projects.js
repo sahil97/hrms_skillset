@@ -14,7 +14,9 @@ $(document).ready(function() {
         $("#pop").show();
         
       console.log("here");
+        
         // Values selected in select2
+        
        var myOBJ=[];
         myOBJ= $(".js-example-basic-multiple").val();
         console.log(myOBJ);
