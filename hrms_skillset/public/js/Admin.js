@@ -2,7 +2,7 @@ var obj,EditID,col = [];
 var token = localStorage.getItem('token');
 $(document).ready(function(){
 
-    $("#pop").hide();
+    // $("#pop").hide();
 
     $("#logoutbtn").click(function(){
 
@@ -25,23 +25,29 @@ function GETALL(){
     "data":"",
     success: function(res){
       console.log(res);
+
+            var pop = document.getElementById("pop");
+            pop.innerHTML="";
       showtable(res);
+
       obj = res;
     },
   });
 }
 
 function showtable(jsonObj){
-  document.getElementById("pop").innerHTML = "";
   col.push("name");
   col.push("username");
   col.push("");
   console.log("col");
   console.log(col);
+
       var pop = document.getElementById("pop");
+      console.log("clearing pop");
+      console.log(pop);
+      pop.innerHTML= "";
       var table = document.createElement("table");
       var tr = table.insertRow(-1);
-
       for (var i = 0; i < col.length; i++) {
           var th = document.createElement("th");  // headings
           console.log("headings");
@@ -49,7 +55,6 @@ function showtable(jsonObj){
           tr.appendChild(th);
       }
       table.appendChild(tr);
-
       for (var i = 0; i < jsonObj.length; i++) {
 
           tr = table.insertRow(-1);

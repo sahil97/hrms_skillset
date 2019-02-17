@@ -179,7 +179,8 @@ router.get('/skills',(req,res)=>{
   var token = jwt.verify(req.get('x-auth-token'),'bootcamp');
   console.log(token);
   User.findOne({username:token.username},(err,user)=>{
-    var res_data = {skills:user.skills,name:user.name,username:user.username};
+    console.log(user);
+    var res_data = {skills:user.skills,name:user.name,username:user.username,path:user.path};
     res.json(res_data);
   });
 });
