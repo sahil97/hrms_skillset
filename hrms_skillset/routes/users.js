@@ -75,8 +75,8 @@ router.post('/register',(req,res)=>{
 });
 
 /// ------ user details change  -----
-router.put('/register/',(req,res)=>{
-    User.findOneAndUpdate({"username":req.body.uid}, {username:req.body.username,password:req.body.password},{new: true}, (err,user)=>{
+router.put('/register/:id',(req,res)=>{
+    User.findOneAndUpdate({_id:req.params.id}, {username:req.body.username},{new: true}, (err,user)=>{
       if( !user) {
                 // console.log(err);
                 // console.error( JSON.stringify( err ) );
