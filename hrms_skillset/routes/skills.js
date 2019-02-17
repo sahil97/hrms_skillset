@@ -26,7 +26,7 @@ router.get('/Allskills',(req,res)=>{
   });
 });
 
-router.get('/getskill/:id',async function(req,res){
+router.get('/:id',async function(req,res){
 
   console.log("getting a skill");
 
@@ -91,7 +91,7 @@ router.post('/makeskill',async function(req,res){
 //   res.json(skill);
 // });
 
-router.put('/skill/:id',async function(req,res){
+router.put('/:id',async function(req,res){
   var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
   console.log("here",token);
   var username = token.username;
@@ -138,22 +138,21 @@ router.put('/skill/:id',async function(req,res){
 // });
 
 
-router.delete('/skills/:id',async function(req,res){
+router.delete('/:id',async function(req,res){
   var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
   console.log("here",token);
   var username = token.username;
-  ser.findOne({username: username},(err,user)=>{
+  User.findOne({username: username},(err,user)=>{
     if(user.role == "sa"){
-    Skills.findOneAndRemove(
-      {_id:req.params.id},
-      function(err,deletedUser){
-        if(err){
-          console.log("error");
-        }
-        else{
-          console.log(deletedUser);
-            }
-          });
+      Skills.findOneAndRemove({_id:req.params.id}, (err,user)=>{
+        if( !user ) {
+                  // console.error( JSON.stringify( error ) );
+                  return res.status(404).send( "username not found" );
+              }
+
+          console.log("saved");
+          res.json(user);
+      });
       }
       else {
           res.status(403).send("Not a admin");

@@ -1,21 +1,176 @@
 
-var obj;
+var obj,EditID;
+console.log(localStorage.getItem('token'));
+var token = localStorage.getItem('token');
 $(document).ready(function(){
+  $("#Add_button").click(function(){
+
+      var name = document.getElementById("SkillText").value;
+      if(!name){
+        alert("Please Enter first");
+        window.location.reload();
+      }
+      console.log(name);
+      myOBJ = { name };
+      console.log("Adding");
+      console.log(myOBJ);
+       AddSkill();
+
+  });
+  $("#list_button").click(function(){
+
+      console.log("Showing");
+      GETALL();
+  });
+
+    $("#logoutbtn").click(function(){
+
+        console.log("token here");
+        localStorage.removeItem("token");
+
+    });
+
+});
+
+
+
+function GETALL(){
+  $.ajax({
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:3333/api/skills/Allskills",
+    "method": "GET",
+    "data":"",
+    success: function(res){
+      console.log(res);
+      showtable(res);
+      obj = res;
+    },
+  });
+}
+
+function AddSkill(){
+    console.log("Inside Skills");
+    var name = document.getElementById("SkillText").value;
+    myOBJ = { name };
+    console.log(name);
+    console.log(myOBJ);
 
     $.ajax({
       "async": true,
       "crossDomain": true,
-      "url": "http://localhost:3333/api/skills/Allskills",
+      "url": "http://localhost:3333/api/skills/makeskill",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json",
+        "x-auth-token":token
+      },
+      // "processData": false,
+      "data":JSON.stringify(myOBJ),
+      success: function(res){
+
+        console.log("Created");
+        console.log(res);
+        alert("Added");
+        window.location.reload();
+      }
+    });
+}
+
+
+function myfuncdel(imageID){       // function to delete data
+    console.log("In Delete");
+    console.log(imageID);
+    delid = imageID.slice(3,);
+    console.log(delid);
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/api/skills/"+delid,
       "method": "GET",
+      "headers": {
+        "x-auth-token":token
+      },
+      // "processData": false,
       "data":"",
       success: function(res){
+        console.log("GOT by id");
         console.log(res);
-        showtable(res);
-        obj = res;
-      },
+        $.ajax({
+          "async": false,
+          "crossDomain": true,
+          "url": "http://localhost:3333/api/skills/" + delid,
+          "method": "DELETE",
+          "headers": {
+            "x-auth-token":token
+          },
+          // "processData": false,
+          "data":"",
+          success: function(res){
+              console.log("deleted");
+              window.location.reload();
+      }
     });
 
+  }
 });
+}
+
+
+function myfuncedit(imageID){               // function to edit data
+    EditID = imageID;
+    console.log("In Edit");
+    console.log("THIS is :",imageID);
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/api/skills/"+imageID,
+      "method": "GET",
+      "headers": {
+        "x-auth-token":token
+      },
+      "data":"",
+      success: function(res){
+        console.log("GOT BY ID");
+        console.log(res);
+        var input = document.createElement("input");
+        input.setAttribute("type","text");
+        input.setAttribute("id","NewName");
+        input.setAttribute("placeholder", res.name);
+        input.setAttribute("class", "text-center");
+        var modal_body = document.getElementById("modal_body");
+        modal_body.appendChild(input);
+  }
+});
+}
+
+function updatemethod(){
+    console.log("In update");
+    var name = document.getElementById("NewName").value;
+    console.log(name);
+    console.log(EditID);
+    myOBJ = {name};
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/api/skills/" + EditID,
+      "method": "PUT",
+      "headers": {
+        "Content-Type": "application/json",
+        "x-auth-token":token
+      },
+      "data":JSON.stringify(myOBJ),
+      success: function(res){
+
+        console.log("Updated");
+        alert("Updated");
+        window.location.reload();
+      }
+    });
+}
+
+
+
 
 function showtable(jsonObj){
 
@@ -65,9 +220,9 @@ function showtable(jsonObj){
         myImage2.src = 'delete.png';
         myImage1.setAttribute("id", jsonObj[i]._id);
         console.log(jsonObj[i]._id);
-        myImage1.setAttribute("onclick","myfuncedit(this.i)");
+        myImage1.setAttribute("onclick","myfuncedit(this.id)");
         myImage2.setAttribute("id", "del" + jsonObj[i]._id)
-        myImage2.setAttribute("onclick","myfuncdel(this.i)");
+        myImage2.setAttribute("onclick","myfuncdel(this.id)");
 
         tabCell.appendChild(myImage1);
         tabCell.appendChild(myImage2);
@@ -76,37 +231,5 @@ function showtable(jsonObj){
     }
     var pop = document.getElementById("pop");
     pop.appendChild(table);
-
-}
-
-
-
-
-function myfuncdel(imageID){       // function to delete data
-    console.log("In Delete");
-    delid = imageID.slice(3,);
-}
-
-
-function myfuncedit(imageID){               // function to edit data
-
-    console.log("In Edit");
-    console.log("THIS  IS OBJE",imageID);
-    console.log(obj[imageID].name);
-    // console.log(obj[0][imageID]["name"]);
-    var input = document.createElement("input");
-    input.setAttribute("type","text");
-    input.setAttribute("name","name");
-    input.setAttribute("placeholder", obj[0].name);
-    input.setAttribute("class", "text-center");
-    var modal_body = document.getElementById("modal_body");
-    modal_body.appendChild(input);
-
-
-
-}
-
-function updatemethod(){
-    console.log("In update");
 
 }

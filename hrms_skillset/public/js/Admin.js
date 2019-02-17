@@ -6,7 +6,11 @@ $(document).ready(function(){
       var Updatebtn = document.getElementById("Updatebtn");
       Updatebtn.setAttribute("data-dismiss","modal");
     });
+    $("#logoutbtn").click(function(){
 
+        console.log("token here");
+        localStorage.removeItem("token");
+    });
     console.log(localStorage.getItem('token'));
     var token = localStorage.getItem('token');
 
@@ -30,11 +34,7 @@ $(document).ready(function(){
     });
 
 
-    $("#logoutbtn").click(function(){
 
-        console.log("token here");
-        localStorage.removeItem("token");
-    });
 });
 
 function showtable(jsonObj){
@@ -109,15 +109,14 @@ function showtable(jsonObj){
 function myfuncedit(imageID){               // function to edit data
 
   console.log("In Edit");
+  $.ajax({
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:3333/api/users",
+    "method": "GET",
+    "data":"",
+    success: function(res){
 
-    // $.ajax({
-    //     async: false,
-    //     type: 'GET',
-    //     url: "http://localhost:50434/api/Skills/" + imageID,
-    //     dataType: "JSON",
-    //     success: function(res){
-        console.log(obj);
-        console.log(obj[0].name);
         console.log(obj[imageID]);
         var input = document.createElement("input");
         input.setAttribute("type","text");
@@ -127,43 +126,29 @@ function myfuncedit(imageID){               // function to edit data
         var modal_body = document.getElementById("modal_body");
         modal_body.appendChild(input);
 
-
-      // document.getElementById("code2").innerHTML =  res.id;
-            // gid = res.id;
-            // document.getElementById("name2").setAttribute("value", res.name);
-            // document.getElementById("mail2").setAttribute("value", res.mail);
-            // document.getElementById("designation").value = res.designation["id"];
-//         }
-// });
+}
+});
 }
 
 function myfuncdel(imageID){       // function to delete data
+
     console.log("In Delete");
     delid = imageID.slice(3,);
 
-//     $.ajax({
+}
+
 //
-//         type: 'DELETE',
-//         url: "http://localhost:50434/api/employees/" + delid,
-//         dataType: "JSON",
-//         success: function(res){
-//             document.location.reload();
-//         }
-// });
-}
-
-
-function updatemethod(){
-    console.log("In update");
-
-    // $.ajax({
-    //     type: 'PUT',
-    //     url: "http://localhost:50434/api/employees/"+ gid,
-    //     dataType: "JSON",
-    //     data :myOBJ2,
-    //     success: function(res){
-    //         document.location.reload();
-    //    }
-    //
-    // });
-}
+// function updatemethod(){
+//     console.log("In update");
+//
+//     // $.ajax({
+//     //     type: 'PUT',
+//     //     url: "http://localhost:50434/api/employees/"+ gid,
+//     //     dataType: "JSON",
+//     //     data :myOBJ2,
+//     //     success: function(res){
+//     //         document.location.reload();
+//     //    }
+//     //
+//     // });
+// }
