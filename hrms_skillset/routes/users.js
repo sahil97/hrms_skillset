@@ -22,7 +22,7 @@ var userSchema = new mongoose.Schema({
 });
 
 var User = mongoose.model('User', userSchema);
-
+var AllUsers;
 
 router.get('/',(req,res)=>{
   User.find(function (err, users) {
@@ -198,7 +198,60 @@ router.put('/skills',(req,res)=>{
   });
 });
 
+///---- user recommendation--------
 
+router.get('/getBySkill',async function(req,res){
+
+  console.log("getting users by their skill");
+
+  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  console.log("here",token);
+  var username = token.username;
+
+  User.findOne({username:username},(err,user)=>{
+    if(user.role == "sa"){
+      User.find(function (err, users) {
+        if (err) return console.error(err);
+
+        var reqUser=[];
+        var count=0;
+           for(i =0; i< users.length;i++)
+           {
+            var userSkills = users[i].skills;
+            var userName = users[i].username;
+            var myArr=req.body.skills;
+            console.log(myArr);
+
+            var status=1;
+
+            for(j=0;j<myArr.length;j++)
+              {
+                if(!userSkills.includes(myArr[j]))
+                status=0;
+              }
+
+            if(status==1)
+              {
+                var finUser ={
+
+                name:userName,
+                skills:userSkills
+
+              };
+              reqUser[count]=finUser;
+              count++;
+              // console.log(finUser);
+            }
+
+           }
+          res.json(reqUser);
+      });
+    }
+else {
+      res.status(403).send("not a admin");
+}
+});
+});
 
 exports.router = router;
 exports.user = User;
