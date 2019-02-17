@@ -52,7 +52,7 @@
     <div class="card">
                     <div class="card-header text-center"><h2>Create Project</h2></div>
                     <div class="card-body">
-                        <div class="col-sm-8 offset-sm-2  text-center">
+                        <div class="col-sm-8 offset-sm-1  text-center">
                             <form class="form justify-content-center">
                               <div class="form-group">
                                   <label for="email">Project Name</label>
@@ -60,7 +60,7 @@
                               </div>                      
                             <div class="sel_skills">
                               <label id="label_skills" for="states[]"> Select Skills</label>
-                              <select class="js-example-basic-multiple skills_input" name="states[]" multiple="multiple">
+                              <select class="js-example-basic-multiple skills_input" name="states[]" multiple="multiple" id = "Skills_option">
                                 <option value="AL">Alabama</option>
                                 <option value="WY">Wyoming</option>
                               </select>
@@ -69,10 +69,14 @@
                         </div>
                     </div>
                     <div class="card-footer text-center">
-                        <input class="btn btn-primary " type="submit">
+                        <input class="btn btn-primary " type="submit" id="recommend" value="Recommend">
                     </div>
               </div>
 
+</div>
+<div class="container">
+    <div id="pop">
+    </div>
 </div>
 </body>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
