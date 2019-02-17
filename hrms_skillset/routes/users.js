@@ -23,6 +23,7 @@ var userSchema = new mongoose.Schema({
 
 var User = mongoose.model('User', userSchema);
 
+
 router.get('/',(req,res)=>{
   User.find(function (err, users) {
     if (err) return console.error(err);

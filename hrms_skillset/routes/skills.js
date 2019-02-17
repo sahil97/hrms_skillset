@@ -142,7 +142,7 @@ router.delete('/skills/:id',async function(req,res){
   var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
   console.log("here",token);
   var username = token.username;
-  ser.findOne({username:username},(err,user)=>{
+  ser.findOne({username: username},(err,user)=>{
     if(user.role == "sa"){
     Skills.findOneAndRemove(
       {_id:req.params.id},
