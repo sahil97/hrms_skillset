@@ -26,6 +26,37 @@ router.get('/Allskills',(req,res)=>{
   });
 });
 
+router.get('/getskill/:id',async function(req,res){
+
+  console.log("getting a skill");
+
+  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  console.log("here",token);
+  var username = token.username;
+
+  User.findOne({username:username},(err,user)=>{
+    if(user.role == "sa"){
+  Skills.findOne({
+    _id:req.params.id
+  })
+  .exec(function(err,users){
+    if(err)
+    {
+      console.log("got some issue");
+    }
+    else
+    {
+      console.log(users);
+      res.json (users);
+    }
+  });
+}
+else {
+      res.status(403).send("not a admin");
+}
+});
+});
+
 router.post('/makeskill',async function(req,res){
   var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
   console.log("here",token);
