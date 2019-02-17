@@ -69,7 +69,7 @@ router.post('/register',async (req,res)=>{
     if(user) return res.status(400).send("User already exists");
 
     const salt = await bcrypt.genSalt(10);
-    const pass = await bcrypt.hash("admin",salt);
+    const pass = await bcrypt.hash(req.body.password,salt);
     user = new User ({name:"Test",role:"u",username:req.body.username,password:pass,skills:[],pic:""});
     user.save((err,user)=>{
       if (err) return console.error(err);
