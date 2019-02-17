@@ -36,10 +36,10 @@ router.get('/',(req,res)=>{
 router.post('/login',(req,res)=>{
   // console.log(req.body);
   User.findOne({username:req.body.username},async (err,user)=>{
-    // console.log(user);
+    console.log(user);
     if(!user) {return res.status(404).send("Incorrect username");}
     var validpass = await bcrypt.compare(req.body.password,user.password);
-    // console.log(validpass);
+    console.log(validpass);
     if(!validpass){
         return res.status(400).send("incorrect password");
       }
@@ -56,7 +56,14 @@ router.post('/login',(req,res)=>{
 /// ---- user registration -----
 
 
-router.post('/register',(req,res)=>{
+router.post('/register',async (req,res)=>{
+  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  console.log("here",token);
+  var username = token.username;
+
+  User.findOne({username:username},async (err,user)=>{
+    if(user.role == "sa"){
+
   var user = User.findOne({"username":req.body.username},async (err,user)=>{
     console.log(user);
     if(user) return res.status(400).send("User already exists");
@@ -70,12 +77,22 @@ router.post('/register',(req,res)=>{
     });
     res.json(user);
   });
-
+  }
+  else {
+    res.status(403).send("not a admin");
+  }
+});
 
 });
 
 /// ------ user details change  -----
-router.put('/register/:id',(req,res)=>{
+router.put('/register/:id',async (req,res)=>{
+  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  console.log("here",token);
+  var username = token.username;
+
+  User.findOne({username:username},(err,user)=>{
+    if(user.role == "sa"){
     User.findOneAndUpdate({_id:req.params.id}, {username:req.body.username},{new: true}, (err,user)=>{
       if( !user) {
                 // console.log(err);
@@ -86,13 +103,24 @@ router.put('/register/:id',(req,res)=>{
         console.log("saved");
         res.json(user);
     });
+  }
+  else {
+      res.status(403).send("Not a admin");
+  }
+});
 });
 
 
 //// ----- user delete -----
 
-router.delete('/register',(req,res)=>{
+router.delete('/register',async (req,res)=>{
 
+  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  console.log("here",token);
+  var username = token.username;
+
+  User.findOne({username:username},(err,user)=>{
+    if(user.role == "sa"){
   User.findOneAndRemove({"username":req.body.username}, (err,user)=>{
     if( !user ) {
               // console.error( JSON.stringify( error ) );
@@ -102,6 +130,11 @@ router.delete('/register',(req,res)=>{
       console.log("saved");
       res.json(user);
   });
+}
+else {
+  res.status(403).send("not a admin");
+}
+});
 });
 
 /// --- get user skills ------
