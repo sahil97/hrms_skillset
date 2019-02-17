@@ -35,7 +35,7 @@
                  </a>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="Admin.html">Employees</a>
                    <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="Index.html" id = "logoutbtn">Log out</a>
 
@@ -50,11 +50,9 @@
     <div class="container text-center">
 
           <input class="btn btn-primary" type="submit" value="List of Employees" id="list_button">
-          <div id="pop"></div>
+          <div id="pop">
 
-          <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Launch demo modal
-          </button> -->
+          </div>
 
     </div>
 
@@ -73,12 +71,16 @@
       </div>
       <div class="modal-body text-center" id ="modal_body">
 
+        <label for="newname">Name</label>
+        <input type="text" class="form-control text-center" id="newname" >
 
+        <label for="email">Username</label>
+        <input type="text" class="form-control text-center" id="some">
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="updatemethod()" id = "Updatebtn">Update</button>
+        <button type="button" class="btn btn-primary" onclick="updatemethod()" >Update</button>
       </div>
     </div>
   </div>

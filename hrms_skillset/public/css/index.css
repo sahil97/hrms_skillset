@@ -2,6 +2,10 @@
     margin: 0;
     padding: 0;
 }
+.container-fluid {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 body {
     font-family: "Poppins", sans-serif;
     height: 100vh;

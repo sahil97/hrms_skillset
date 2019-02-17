@@ -130,7 +130,7 @@ router.put('/register/:id',async (req,res)=>{
 
   User.findOne({username:username},(err,user)=>{
     if(user.role == "sa"){
-    User.findOneAndUpdate({_id:req.params.id}, {username:req.body.username},{new: true}, (err,user)=>{
+    User.findOneAndUpdate({_id:req.params.id}, {username:req.body.username,name:req.body.name},{new: true}, (err,user)=>{
       if( !user) {
                 // console.log(err);
                 // console.error( JSON.stringify( err ) );
@@ -150,7 +150,7 @@ router.put('/register/:id',async (req,res)=>{
 
 //// ----- user delete -----
 
-router.delete('/register',async (req,res)=>{
+router.delete('/register/:id',async (req,res)=>{
 
   var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
   console.log("here",token);
@@ -158,7 +158,7 @@ router.delete('/register',async (req,res)=>{
 
   User.findOne({username:username},(err,user)=>{
     if(user.role == "sa"){
-  User.findOneAndRemove({"username":req.body.username}, (err,user)=>{
+  User.findOneAndRemove({_id:req.params.id}, (err,user)=>{
     if( !user ) {
               // console.error( JSON.stringify( error ) );
               return res.status(404).send( "username not found" );

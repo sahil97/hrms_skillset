@@ -1,16 +1,30 @@
 $(document).ready(function() {
     var username, username_email, skills;
     $('.js-example-basic-multiple').select2();
-    all_skills = ["html","CS"];
+
     console.log(localStorage.getItem('token'));
     var token = localStorage.getItem('token');
-    // skill is for user's skills
-    // all_skill is for all skills
-    // and skill database
-    // store all skills in skills array
 
     $.ajax({
-      "async": true,
+      "async": false,
+      "crossDomain": true,
+      "url": "http://localhost:3333/api/skills/Allskills",
+      "method": "GET",
+      "data":"",
+      success: function(res){
+        console.log(res);
+        var Skills_option = document.getElementById("Skills_option");
+        for(var i=0; i<res.length; i++){
+          var option = document.createElement("option");      // TABLE HEADER.
+          option.innerHTML = res[i].name;
+          option.setAttribute("value",res[i].name);
+          Skills_option.appendChild(option);
+        }
+      },
+    });
+
+    $.ajax({
+      "async": false,
       "crossDomain": true,
       "url": "http://localhost:3333/api/users/skills",
       "method": "GET",
@@ -45,14 +59,6 @@ $(document).ready(function() {
           skilldiv.setAttribute("class","skill");
           display_skills.appendChild(skilldiv);
       }
-    }
-
-    var Skills_option = document.getElementById("Skills_option");
-    for (var i = 0; i < all_skills.length; i++) {
-        var option = document.createElement("option");      // TABLE HEADER.
-        option.innerHTML = all_skills[i];
-        option.setAttribute("value",all_skills[i]);
-        Skills_option.appendChild(option);
     }
 
     $("#ADDbtn").click(function(){

@@ -1,70 +1,51 @@
-var obj;
+var obj,EditID,col = [];
+var token = localStorage.getItem('token');
 $(document).ready(function(){
 
     $("#pop").hide();
-    $("#Updatebtn").click(function(){
-      var Updatebtn = document.getElementById("Updatebtn");
-      Updatebtn.setAttribute("data-dismiss","modal");
-    });
+
     $("#logoutbtn").click(function(){
 
         console.log("token here");
         localStorage.removeItem("token");
     });
-    console.log(localStorage.getItem('token'));
-    var token = localStorage.getItem('token');
-
     $("#list_button").click(function(){
           $("#pop").show();
-///////////////////////////////////////////////////////////////////////////////////////////////////
-          $.ajax({
-            "async": true,
-            "crossDomain": true,
-            "url": "http://localhost:3333/api/users",
-            "method": "GET",
-            "data":"",
-            success: function(res){
-              console.log(res);
-              showtable(res);
-              obj = res;
-            },
-          });
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
+          GETALL();
     });
-
-
 
 });
 
+function GETALL(){
+  $.ajax({
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:3333/api/users",
+    "method": "GET",
+    "data":"",
+    success: function(res){
+      console.log(res);
+      showtable(res);
+      obj = res;
+    },
+  });
+}
+
 function showtable(jsonObj){
-
-  var body = document.getElementById('pop');
-  // jsonObj = [{"Name": "Taran", "Id": "33"}];
-  showtable(jsonObj);
-  // showtable(res);
-  function showtable(jsonObj) {
-
-      var col = [ "name", "username"];
-          // for (var i = 0; i < jsonObj.length; i++) {
-          //     for (var key in jsonObj[0][i]) {
-          //         if (col.indexOf(key) === -1 ) {
-          //             col.push(key);
-          //         }
-          //     }
-          // }
-      col.push("");
-      console.log("col");
-      console.log(col);
-
-
+  document.getElementById("pop").innerHTML = "";
+  col.push("name");
+  col.push("username");
+  col.push("");
+  console.log("col");
+  console.log(col);
+      var pop = document.getElementById("pop");
       var table = document.createElement("table");
       var tr = table.insertRow(-1);
 
       for (var i = 0; i < col.length; i++) {
           var th = document.createElement("th");  // headings
           console.log("headings");
-          th.innerHTML = col[i];
+          th.innerHTML = col[i].toUpperCase();
           tr.appendChild(th);
       }
       table.appendChild(tr);
@@ -82,7 +63,6 @@ function showtable(jsonObj){
 
           var myImage1 = new Image(20, );
           myImage1.src = 'edit.png';
-          // data-toggle="modal" data-target="#exampleModal"
           myImage1.setAttribute("data-toggle","modal");
           myImage1.setAttribute("data-target","#exampleModal");              // Edit and Delete images
           var myImage2 = new Image(20, );
@@ -97,58 +77,102 @@ function showtable(jsonObj){
           tr.appendChild(tabCell);
           table.appendChild(tr);
       }
-      var pop = document.getElementById("pop");
+
       pop.appendChild(table);
 
   }
 
-}
 
 
 
-function myfuncedit(imageID){               // function to edit data
+function myfuncdel(imageID){       // function to delete data
+    console.log("In Delete");
+    console.log(imageID);
+    delid = imageID.slice(3,);
+    console.log(delid);
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/api/users/user/"+delid,
+      "method": "GET",
+      "headers": {
+        "x-auth-token":token
+      },
+      // "processData": false,
+      "data":"",
+      success: function(res){
+        console.log("GOT by id");
+        console.log(res);
+        $.ajax({
+          "async": false,
+          "crossDomain": true,
+          "url": "http://localhost:3333/api/users/register/" + delid,
+          "method": "DELETE",
+          "headers": {
+            "x-auth-token":token
+          },
+          // "processData": false,
+          "data":"",
+          success: function(res){
+              console.log("deleted");
+              window.location.reload();
+      }
+    });
 
-  console.log("In Edit");
-  $.ajax({
-    "async": true,
-    "crossDomain": true,
-    "url": "http://localhost:3333/api/users",
-    "method": "GET",
-    "data":"",
-    success: function(res){
-
-        console.log(obj[imageID]);
-        var input = document.createElement("input");
-        input.setAttribute("type","text");
-        input.setAttribute("name",obj[imageID].name);
-        input.setAttribute("placeholder", res.Name);
-        input.setAttribute("class", "text-center");
-        var modal_body = document.getElementById("modal_body");
-        modal_body.appendChild(input);
-
-}
+  }
 });
 }
 
-function myfuncdel(imageID){       // function to delete data
 
-    console.log("In Delete");
-    delid = imageID.slice(3,);
-
+function myfuncedit(imageID){               // function to edit data
+    EditID = imageID;
+    console.log("In Edit");
+    console.log("THIS is :",imageID);
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/api/users/user/"+imageID,
+      "method": "GET",
+      "headers": {
+        "x-auth-token":token
+      },
+      "data":"",
+      success: function(res){
+        console.log("GOT BY ID");
+        console.log(res);
+        var name = $('#newname');
+        var some = document.getElementById('some');
+        console.log(res.username);
+        newname.setAttribute("value",res.name);
+        some.setAttribute("value",res.username);
+      }
+    });
 }
 
-//
-// function updatemethod(){
-//     console.log("In update");
-//
-//     // $.ajax({
-//     //     type: 'PUT',
-//     //     url: "http://localhost:50434/api/employees/"+ gid,
-//     //     dataType: "JSON",
-//     //     data :myOBJ2,
-//     //     success: function(res){
-//     //         document.location.reload();
-//     //    }
-//     //
-//     // });
-// }
+function updatemethod(){
+    console.log("In update");
+    var name = document.getElementById("newname").value;
+    var username = document.getElementById("some").value;
+
+    console.log(newname);
+    console.log(EditID);
+    myOBJ = {name, username};
+    console.log(myOBJ);
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://localhost:3333/api/users/register/" + EditID,
+      "method": "PUT",
+      "headers": {
+        "Content-Type": "application/json",
+        "x-auth-token":token
+      },
+      "data":JSON.stringify(myOBJ),
+      success: function(res){
+        console.log(res);
+        console.log("Updated");
+        alert("Updated");
+        window.location.reload();
+      }
+    });
+}

@@ -1,4 +1,3 @@
-
 var obj,EditID;
 console.log(localStorage.getItem('token'));
 var token = localStorage.getItem('token');
@@ -10,15 +9,15 @@ $(document).ready(function(){
         alert("Please Enter first");
         window.location.reload();
       }
+      else{
       console.log(name);
       myOBJ = { name };
       console.log("Adding");
       console.log(myOBJ);
        AddSkill();
-
+     }
   });
   $("#list_button").click(function(){
-
       console.log("Showing");
       GETALL();
   });
@@ -173,17 +172,8 @@ function updatemethod(){
 
 
 function showtable(jsonObj){
-
-// function showtable(jsonObj) {
     var body = document.getElementById('pop');
     var col = [];
-        // for (var i = 0; i < jsonObj.length; i++) {
-        //     for (var key in jsonObj[i]) {
-        //         if (col.indexOf(key) === -1 ) {
-        //             col.push(key);
-        //         }
-        //     }
-        // }
     col.push("name");
     col.push("");
     console.log("col");
