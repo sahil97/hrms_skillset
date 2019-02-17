@@ -12,17 +12,17 @@ $(document).ready(function() {
     $("#pop").hide();
     $("#recommend").click(function(){
         $("#pop").show();
-        
+
       console.log("here");
-        
+
         // Values selected in select2
-        
+
        var myOBJ=[];
         myOBJ= $(".js-example-basic-multiple").val();
         console.log(myOBJ);
-        
+
         /*Post the tech stack to get the recommendations of users*/
-        
+
        $.ajax({
            type: 'POST',
            url: "http://localhost:50434/api/users/",
@@ -34,9 +34,9 @@ $(document).ready(function() {
                showtable(jsonObj);  /*showtable(res)*/
            }
         });
-        
+
         /*to show dynamic table of users with required skills*/
-        
+
         function showtable(jsonObj) {
             var col = [];
             for (var i = 0; i < jsonObj.length; i++) {

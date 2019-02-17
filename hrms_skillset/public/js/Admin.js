@@ -1,3 +1,4 @@
+var obj;
 $(document).ready(function(){
 
     $("#pop").hide();
@@ -21,6 +22,7 @@ $(document).ready(function(){
             success: function(res){
               console.log(res);
               showtable(res);
+              obj = res;
             },
           });
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,9 +87,9 @@ function showtable(jsonObj){
           myImage1.setAttribute("data-target","#exampleModal");              // Edit and Delete images
           var myImage2 = new Image(20, );
           myImage2.src = 'delete.png';
-          myImage1.setAttribute("id", jsonObj[i].id);
+          myImage1.setAttribute("id", jsonObj[i]._id);
           myImage1.setAttribute("onclick","myfuncedit(this.id)");
-          myImage2.setAttribute("id", "del" + jsonObj[i].id)
+          myImage2.setAttribute("id", "del" + jsonObj[i]._id)
           myImage2.setAttribute("onclick","myfuncdel(this.id)");
 
           tabCell.appendChild(myImage1);
@@ -100,6 +102,39 @@ function showtable(jsonObj){
 
   }
 
+}
+
+
+
+function myfuncedit(imageID){               // function to edit data
+
+  console.log("In Edit");
+
+    // $.ajax({
+    //     async: false,
+    //     type: 'GET',
+    //     url: "http://localhost:50434/api/Skills/" + imageID,
+    //     dataType: "JSON",
+    //     success: function(res){
+        console.log(obj);
+        console.log(obj[0].name);
+        console.log(obj[imageID]);
+        var input = document.createElement("input");
+        input.setAttribute("type","text");
+        input.setAttribute("name",obj[imageID].name);
+        input.setAttribute("placeholder", res.Name);
+        input.setAttribute("class", "text-center");
+        var modal_body = document.getElementById("modal_body");
+        modal_body.appendChild(input);
+
+
+      // document.getElementById("code2").innerHTML =  res.id;
+            // gid = res.id;
+            // document.getElementById("name2").setAttribute("value", res.name);
+            // document.getElementById("mail2").setAttribute("value", res.mail);
+            // document.getElementById("designation").value = res.designation["id"];
+//         }
+// });
 }
 
 function myfuncdel(imageID){       // function to delete data
@@ -117,35 +152,6 @@ function myfuncdel(imageID){       // function to delete data
 // });
 }
 
-
-function myfuncedit(imageID){               // function to edit data
-
-  console.log("In Edit");
-
-    // $.ajax({
-    //     async: false,
-    //     type: 'GET',
-    //     url: "http://localhost:50434/api/Skills/" + imageID,
-    //     dataType: "JSON",
-    //     success: function(res){
-              res = {"id": 1, "Name": "Taran"};
-              var input = document.createElement("input");
-              input.setAttribute("type","text");
-              input.setAttribute("name","name");
-              input.setAttribute("placeholder", res.Name);
-              input.setAttribute("class", "text-center");
-              var modal_body = document.getElementById("modal_body");
-              modal_body.appendChild(input);
-
-
-            // document.getElementById("code2").innerHTML =  res.id;
-            // gid = res.id;
-            // document.getElementById("name2").setAttribute("value", res.name);
-            // document.getElementById("mail2").setAttribute("value", res.mail);
-            // document.getElementById("designation").value = res.designation["id"];
-//         }
-// });
-}
 
 function updatemethod(){
     console.log("In update");
