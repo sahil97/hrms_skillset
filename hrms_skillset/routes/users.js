@@ -33,6 +33,42 @@ router.get('/',(req,res)=>{
 });
 
 
+// -----get user by id-------
+
+
+router.get('/user/:id',async function(req,res){
+
+  console.log("getting a user");
+
+  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  console.log("here",token);
+  var username = token.username;
+
+  User.findOne({username:username},(err,user)=>{
+    if(user.role == "sa"){
+  User.findOne({
+    _id:req.params.id
+  })
+  .exec(function(err,users){
+    if(err)
+    {
+      console.log("got some issue");
+    }
+    else
+    {
+      console.log(users);
+      res.json (users);
+    }
+  });
+}
+else {
+      res.status(403).send("not a admin");
+}
+});
+});
+
+
+
 /// ---- Login request  -----
 router.post('/login',(req,res)=>{
   // console.log(req.body);

@@ -76,7 +76,7 @@ router.post('/makeskill',async function(req,res){
       });
     }
     else {
-      res.status(403).send("Not a admin");
+        res.status(403).send("Not a admin");
     }
   });
 
