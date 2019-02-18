@@ -1,75 +1,71 @@
 $(document).ready(function() {
     $('.js-example-basic-multiple').select2();
+    var token = localStorage.getItem('token');
 
-    all_skills = ["HTML","b","Bootstrap"];
-    var Skills_option = document.getElementById("Skills_option");
-    for (var i = 0; i < all_skills.length; i++) {
-        var option = document.createElement("option");
-        option.innerHTML = all_skills[i];
-        option.setAttribute("value",all_skills[i]);
-        Skills_option.appendChild(option);
-    }
-    $("#pop").hide();
-    $("#recommend").click(function(){
-        $("#pop").show();
+    $.ajax({
+      "async": false,
+      "crossDomain": true,
+      "url": "http://localhost:3333/api/skills/Allskills",
+      "method": "GET",
+      "data":"",
+      success: function(res){
+        console.log(res);
+        console.log("Inside");
+        var Skills_option = document.getElementById("Skills_option");
+        for(var i=0; i<res.length; i++){
 
-      console.log("here");
-
-        // Values selected in select2
-
-       var myOBJ=[];
-        myOBJ= $(".js-example-basic-multiple").val();
-        console.log(myOBJ);
-
-        /*Post the tech stack to get the recommendations of users*/
-
-       $.ajax({
-           type: 'POST',
-           url: "http://localhost:50434/api/users/",
-           dataType: "JSON",
-           data :myOBJ,
-           success: function(res){
-               var body = document.getElementById('pop');
-               var jsonObj = [{"Name": "SB", "Id": "016"}];
-               showtable(jsonObj);  /*showtable(res)*/
-           }
-        });
-
-        /*to show dynamic table of users with required skills*/
-
-        function showtable(jsonObj) {
-            var col = [];
-            for (var i = 0; i < jsonObj.length; i++) {
-                for (var key in jsonObj[i]) {
-                    if (col.indexOf(key) === -1 ) {
-                        col.push(key);
-                    }
-                }
-            }
-            col.push("");
-            console.log("col");
-            console.log(col);
-            var table = document.createElement("table");
-            var tr = table.insertRow(-1);
-            for (var i = 0; i < col.length; i++) {
-                var th = document.createElement("th");  // headings
-                console.log("headings");
-                th.innerHTML = col[i];
-                tr.appendChild(th);
-            }
-            table.appendChild(tr);
-            for (var i = 0; i < jsonObj.length; i++) {
-                tr = table.insertRow(-1);
-                for (var j = 0; j < (col.length - 1) ; j++) {
-                    var tabCell = tr.insertCell(-1);                    // values in table cells
-                    tabCell.innerHTML = jsonObj[i][col[j]];
-                }
-                var tabCell = tr.insertCell(-1);
-                tr.appendChild(tabCell);
-                table.appendChild(tr);
-            }
-            var pop = document.getElementById("pop");
-            pop.appendChild(table);
+          var option = document.createElement("option");      // TABLE HEADER.
+          option.innerHTML = res[i].name;
+          option.setAttribute("value",res[i].name);
+          Skills_option.appendChild(option);
         }
+      },
     });
-    });
+
+    $("#pop").hide();
+
+    $("#recommend").click(function(){
+
+      console.log("Inside recommend");
+      console.log($(".js-example-basic-multiple").val());
+      var skills = $(".js-example-basic-multiple").val();
+      if(skills.length == 0 || !(document.getElementById("Name").value)){
+        console.log(skills);
+        alert("All fields are required");
+      }
+      else{
+        $.ajax({
+          "async": false,
+          "crossDomain": true,
+          "url": "http://localhost:3333/api/users/getBySkill",
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            "x-auth-token":token
+          },
+          "data":JSON.stringify({ "skills": skills}),
+          success: function(res){
+            console.log(res);
+            console.log("received");
+            var recommend = document.getElementById("recommendcol");
+            if(document.getElementById("Select")){
+              console.log("There are 2 ");
+              var select = document.getElementById("Select");
+              select.parentNode.removeChild(select);
+            }
+            var select = document.createElement("Select");
+            for(var i=0; i<res.length; i++){
+              console.log(res[i].name);
+              var option = document.createElement("option");
+              // option.setAttribute("class","col-sm-6");
+              option.textContent = res[i].name;
+              option.setAttribute("value",res[i].name);
+
+              select.appendChild(option);
+            }
+            recommend.appendChild(select);
+          }
+        });
+      }
+});
+});
