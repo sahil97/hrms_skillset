@@ -132,11 +132,11 @@ function myfuncedit(imageID){               // function to edit data
       success: function(res){
         console.log("GOT BY ID");
         console.log(res);
-        var input = document.createElement("input");
-        input.setAttribute("type","text");
-        input.setAttribute("id","NewName");
-        input.setAttribute("placeholder", res.name);
-        input.setAttribute("class", "text-center");
+        var input = document.getElementById("NewName");
+        // input.setAttribute("type","text");
+        // input.setAttribute("id","NewName");
+        input.setAttribute("value", res.name);
+        // input.setAttribute("class", "text-center");
         var modal_body = document.getElementById("modal_body");
         modal_body.appendChild(input);
   }
