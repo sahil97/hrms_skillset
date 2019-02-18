@@ -201,7 +201,7 @@ router.put('/skills',(req,res)=>{
 
 ///---- user recommendation--------
 
-router.get('/getBySkill',async function(req,res){
+router.post('/getBySkill',async function(req,res){
 
   console.log("getting users by their skill");
 

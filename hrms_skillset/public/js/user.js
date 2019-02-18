@@ -8,7 +8,7 @@ $(document).ready(function() {
     $.ajax({
       "async": false,
       "crossDomain": true,
-      "url": "http://localhost:3333/api/skills/Allskills",
+      "url": "http://localhost:3333/api/skills/Allskills",  // To add skills in the Select2
       "method": "GET",
       "data":"",
       success: function(res){
@@ -70,7 +70,7 @@ $(document).ready(function() {
       var newskill = $(".js-example-basic-multiple").val();  // Values selected in select2
       $.ajax({
         "async": true,
-        "crossDomain": true,
+        "crossDomain": true,             // To add new skills
         "url": "http://localhost:3333/api/users/skills",
         "method": "PUT",
         "headers": {

@@ -56,7 +56,10 @@ function showtable(jsonObj){
       }
       table.appendChild(tr);
       for (var i = 0; i < jsonObj.length; i++) {
-
+          if(jsonObj[i].role == "sa"){
+            console.log("Skipped");
+            continue;
+          }
           tr = table.insertRow(-1);
 
           for (var j = 0; j < (col.length - 1) ; j++) {
