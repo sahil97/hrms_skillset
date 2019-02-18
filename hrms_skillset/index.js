@@ -1,10 +1,12 @@
 const fs = require('fs');
 const express = require('express');
 const morgan = require('morgan');
+const config = require('config');
 const user = require('./routes/users.js')
 const users = user.router;
 const skills = require('./routes/skills.js')
 var app = express();
+
 
 //// Hardcoded variables
 
@@ -45,7 +47,8 @@ app.get('/login',(req,res)=>{
 
 /// APP
 
-const PORT = process.env.PORT || 3333;
+const PORT = process.env.PORT || config.get('PORT')|| 3333;
 app.listen(PORT, ()=>{
   console.log(`listening on port ${PORT}`);
+  // console.log(config.get("jwtPrivateKey"));
 })

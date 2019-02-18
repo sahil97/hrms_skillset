@@ -1,3 +1,4 @@
+const config = require('config');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const express = require('express');
@@ -40,7 +41,7 @@ router.get('/user/:id',async function(req,res){
 
   console.log("getting a user");
 
-  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  var token = await jwt.verify(req.get('x-auth-token'),config.get('jwtPrivateKey'));
   console.log("here",token);
   var username = token.username;
 
@@ -81,7 +82,7 @@ router.post('/login',(req,res)=>{
         return res.status(400).send("incorrect password");
       }
       else{
-        var token = jwt.sign({ username:user.username},'bootcamp');
+        var token = jwt.sign({ username:user.username},config.get('jwtPrivateKey'));
         console.log(user);
         return res.header('x-auth-token',token).send(user.role);
       }
@@ -94,7 +95,7 @@ router.post('/login',(req,res)=>{
 
 
 router.post('/register',async (req,res)=>{
-  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  var token = await jwt.verify(req.get('x-auth-token'),config.get('jwtPrivateKey'));
   console.log("here",token);
   var username = token.username;
 
@@ -124,7 +125,7 @@ router.post('/register',async (req,res)=>{
 
 /// ------ user details change  -----
 router.put('/register/:id',async (req,res)=>{
-  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  var token = await jwt.verify(req.get('x-auth-token'),config.get('jwtPrivateKey'));
   console.log("here",token);
   var username = token.username;
 
@@ -152,7 +153,7 @@ router.put('/register/:id',async (req,res)=>{
 
 router.delete('/register/:id',async (req,res)=>{
 
-  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  var token = await jwt.verify(req.get('x-auth-token'),config.get('jwtPrivateKey'));
   console.log("here",token);
   var username = token.username;
 
@@ -176,7 +177,7 @@ else {
 
 /// --- get user skills ------
 router.get('/skills',(req,res)=>{
-  var token = jwt.verify(req.get('x-auth-token'),'bootcamp');
+  var token = jwt.verify(req.get('x-auth-token'),config.get('jwtPrivateKey'));
   console.log(token);
   User.findOne({username:token.username},(err,user)=>{
     console.log(user);
@@ -189,7 +190,7 @@ router.get('/skills',(req,res)=>{
 
 /// --- Edit user Skills ---
 router.put('/skills',(req,res)=>{
-  var token = jwt.verify(req.get('x-auth-token'),'bootcamp');
+  var token = jwt.verify(req.get('x-auth-token'),config.get('jwtPrivateKey'));
   console.log(token);
   User.findOne({username:token.username},(err,user)=>{
     user.skills = user.skills.concat(req.body.skills);
@@ -205,7 +206,7 @@ router.post('/getBySkill',async function(req,res){
 
   console.log("getting users by their skill");
 
-  var token = await jwt.verify(req.get('x-auth-token'),'bootcamp');
+  var token = await jwt.verify(req.get('x-auth-token'),config.get('jwtPrivateKey'));
   console.log("here",token);
   var username = token.username;
 
