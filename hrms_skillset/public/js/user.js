@@ -40,7 +40,7 @@ $(document).ready(function() {
             skills = res.skills;
             username = res.name;
             username_email = res.username;
-            username_img = res.path;
+            username_img = res.path?res.path:"1.jpg";
             console.log(username);
             console.log(username_email);
             updateSkills(skills);
