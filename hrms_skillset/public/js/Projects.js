@@ -1,7 +1,12 @@
 $(document).ready(function() {
     $('.js-example-basic-multiple').select2();
     var token = localStorage.getItem('token');
+    $("#logoutbtn").click(function(){
 
+        console.log("token here");
+        localStorage.removeItem("token");
+
+    });
     $.ajax({
       "async": false,
       "crossDomain": true,
