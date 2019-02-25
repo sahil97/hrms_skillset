@@ -1,0 +1,44 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+}
+.img_nav{
+  width: 2rem;
+}
+.card{
+    top:50px;
+    max-width:568px;
+    margin-right: auto;
+    margin-left: auto;
+    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+}
+
+.form-control{
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    margin: 5px auto;
+}
+.img_nav{
+    width: 2rem;
+}
+select{
+  width: 40%;
+}
+#recommendcol{
+  margin: 10px;
+}
+#Select option{
+  width: 40%;
+  padding: 5px;
+}
+.skills_input{
+  display: inline-block;
+  margin-left: 2em;
+  max-width: 100%;
+  min-width: 40%;
+}
