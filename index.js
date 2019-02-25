@@ -23,20 +23,20 @@ app.use(function(req, res, next) {
 
 app.use(express.static(__dirname + '/public'));
 
-if(env == "development"){
-  app.use(morgan('tiny'));
-  console.log('Morgan enabled. Dev enviornment');
-}
+// if(env == "development"){
+//   app.use(morgan('tiny'));
+//   console.log('Morgan enabled. Dev enviornment');
+// }
 
 //// external ROUTES
-
+app.get("/",(req,res)=>{
+  res.sendFile(path.join(__dirname + '/index.html'));
+});
 app.use('/api/users',users);
 app.use('/api/skills',skills);
 
 //// ROUTES
-app.get("/",(req,res)=>{
-  res.sendFile(path.join(__dirname + '/index.html'));
-});
+
 //
 //
 // app.get('/login',(req,res)=>{
@@ -45,7 +45,7 @@ app.get("/",(req,res)=>{
 
 /// APP
 
-const PORT = process.env.PORT || config.get('PORT')|| 3333;
+const PORT = process.env.PORT || 3333;
 app.listen(PORT, ()=>{
   console.log(`listening on port ${PORT}`);
   // console.log(config.get("jwtPrivateKey"));
