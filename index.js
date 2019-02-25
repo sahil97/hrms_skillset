@@ -14,7 +14,6 @@ var env = "development";
 
 /// Middlewares
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.static(__dirname+'/views'));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -22,7 +21,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-
+app.use(express.static(__dirname + '/public'));
 
 if(env == "development"){
   app.use(morgan('tiny'));
@@ -35,8 +34,7 @@ app.use('/api/users',users);
 app.use('/api/skills',skills);
 
 //// ROUTES
-
-app.get('/',(req,res)=>{
+app.get("/",(req,res)=>{
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 //
