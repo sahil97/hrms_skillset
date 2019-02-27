@@ -63,7 +63,7 @@ router.get('/user/:id',async function(req,res){
   });
 }
 else {
-      res.status(403).send("not a admin");
+      res.status(403).send("not an admin");
 }
 });
 });
@@ -117,7 +117,7 @@ router.post('/register',async (req,res)=>{
   });
   }
   else {
-    res.status(403).send("not a admin");
+    res.status(403).send("not an admin");
   }
 });
 
@@ -143,7 +143,7 @@ router.put('/register/:id',async (req,res)=>{
     });
   }
   else {
-      res.status(403).send("Not a admin");
+      res.status(403).send("Not an admin");
   }
 });
 });
@@ -170,7 +170,7 @@ router.delete('/register/:id',async (req,res)=>{
   });
 }
 else {
-  res.status(403).send("not a admin");
+  res.status(403).send("not an admin");
 }
 });
 });
