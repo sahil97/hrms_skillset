@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/sahil97/hrms_skillset#readme",
   "dependencies": {
-    "bcrypt": "^3.0.4",
+    "bcrypt": "^5.0.0",
     "config": "^3.0.1",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
